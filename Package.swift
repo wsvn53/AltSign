@@ -70,8 +70,8 @@ let package = Package(
 				"libplist/NEWS",
 				"libplist/README.md",
 				"libplist/src/Makefile.am",
-				"libplist/src/libplist++.pc.in",
-				"libplist/src/libplist.pc.in",
+				"libplist/src/libplist++-2.0.pc.in",
+				"libplist/src/libplist-2.0.pc.in",
 				"libplist/libcnary/cnary.c",
 				"libplist/libcnary/COPYING",
 				"libplist/libcnary/Makefile.am",
@@ -110,8 +110,10 @@ let package = Package(
 				.headerSearchPath("../../Dependencies/ldid/libplist/include"),
 				.headerSearchPath("../../Dependencies/ldid/libplist/src"),
 				.headerSearchPath("../../Dependencies/ldid/libplist/libcnary/include"),
+				.headerSearchPath("../../Dependencies/openssl-shim"),
 			],
 			cxxSettings: [
+				.headerSearchPath("../../Dependencies/openssl-shim"),
 				.unsafeFlags(["-w"])
 			]
 		),
@@ -149,6 +151,7 @@ let package = Package(
 			dependencies: [
 				"CoreCrypto",
 				"ldid",
+				"OpenSSL",
 //                 "minizip"
 			],
 			path: "",
@@ -174,6 +177,7 @@ let package = Package(
 				.headerSearchPath("Dependencies/ldid"),
 				.headerSearchPath("Dependencies/ldid/libplist/include"),
 				.headerSearchPath("Dependencies/minizip"),
+				.headerSearchPath("Dependencies/openssl-shim"),
 				.define("unix=1"),
 			],
 			cxxSettings: [
@@ -183,6 +187,7 @@ let package = Package(
 				.headerSearchPath("Dependencies/ldid"),
 				.headerSearchPath("Dependencies/ldid/libplist/include"),
 				.headerSearchPath("Dependencies/minizip"),
+				.headerSearchPath("Dependencies/openssl-shim"),
 			 .define("unix=1"),
 			],
 			linkerSettings: [

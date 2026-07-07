@@ -210,7 +210,12 @@ ALTDeviceType ALTDeviceTypeFromUIDeviceFamily(NSInteger deviceFamily)
     NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:self.bundle.builtInPlugInsURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:nil];
     for (NSURL *fileURL in enumerator)
     {
-        if (![fileURL.pathExtension.lowercaseString isEqualToString:@"appex"])
+        NSString *pathExtension = fileURL.pathExtension.lowercaseString;
+
+        // Treat XCTest bundles (e.g. WebDriverAgent/Appium UITests-Runner plugins) the same
+        // as regular app extensions so they get their own provisioning profile + entitlements
+        // during resigning, instead of being silently skipped and left with empty entitlements.
+        if (![pathExtension isEqualToString:@"appex"] && ![pathExtension isEqualToString:@"xctest"])
         {
             continue;
         }
