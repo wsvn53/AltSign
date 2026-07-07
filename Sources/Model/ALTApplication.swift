@@ -233,7 +233,13 @@ private extension ALTApplication {
         )
 
         while let url = enumerator?.nextObject() as? URL {
-            guard url.pathExtension.lowercased() == "appex" else {
+            let pathExtension = url.pathExtension.lowercased()
+
+            // Treat XCTest bundles (e.g. WebDriverAgent/Appium UITests-Runner plugins) the
+            // same as regular app extensions so they get their own provisioning profile +
+            // entitlements during resigning, instead of being silently skipped and left
+            // with empty/mismatched entitlements (which causes the app to crash on launch).
+            guard pathExtension == "appex" || pathExtension == "xctest" else {
                 continue
             }
 
